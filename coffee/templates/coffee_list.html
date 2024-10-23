@@ -1,0 +1,20 @@
+
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Coffee List</h1>
+    <ul>
+        {% for coffee in coffees %}
+            <li>{{ coffee.name }} - ${{ coffee.price }} ({{ coffee.quantity }} in stock)
+                <button>Add to Cart</button>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Add New Coffee</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Coffee</button>
+    </form>
+    {% endblock %}
+

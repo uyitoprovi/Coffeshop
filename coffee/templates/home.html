@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Our Coffee Selection</h1>
+
+<form method="get" action="{% url 'home' %}">
+    <input type="text" name="q" placeholder="Search coffee..." value="{{ request.GET.q }}">
+    <button type="submit">Search</button>
+</form>
+
+<div class="coffee-list">
+    {% for coffee in coffee %}
+        <div class="coffee-item">
+            <h2>{{ coffee.name }}</h2>
+            <p>Price: {{ coffee.price }}</p>
+            <a href="{% url 'add_to_cart' coffee.id %}">Add to Cart</a>
+        </div>
+    {% empty %}
+        <p>No coffee products found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

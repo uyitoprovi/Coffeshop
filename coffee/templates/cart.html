@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Your Shopping Cart</title>
+	<style>
+		/* Add CSS styles for flex container and items */
+		.product-list {
+			display: flex;
+			flex-wrap: wrap; /* Allow items to wrap to the next row if necessary */
+			justify-content: space-between; /* Space items evenly along the main axis */
+			list-style: none; /* Remove list styles */
+			padding: 0;
+		}
+
+		.product-item {
+			flex: 1; /* Grow to fill available space evenly */
+			max-width: 300px; /* Limit item width to avoid overcrowding */
+			margin: 10px; /* Add spacing between items */
+			border: 1px solid #ccc; /* Add a border for visual separation */
+			padding: 10px;
+			text-align: center;
+		}
+
+		/* Style the "Remove" button */
+		.remove-button {
+			display: block;
+			margin-top: 10px;
+			background-color: #ff0000;
+			color: #fff;
+			text-decoration: none;
+			padding: 5px 10px;
+			border-radius: 5px;
+		}
+	</style>
+</head>
+
+<body>
+
+	<h1>Your Shopping Cart</h1>
+
+	<div class="product-list">
+		{% for item in cart_items %}
+		<div class="product-item">
+			<h2>{{ item.product.name }}</h2>
+			<p>Quantity: {{ item.quantity }}</p>
+			<p>Price per item: ${{ item.product.price }}</p>
+			<p>Subtotal: ${{ item.product.price|floatformat:2 }}</p>
+			<a href="{% url 'remove_from_cart' item.item_id %}" class="remove-button">Remove</a>
+		</div>
+		{% empty %}
+		<p>Your cart is empty.</p>
+		{% endfor %}
+	</div>
+	{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                {{ message }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+
+	<p>Total Price: ${{ total_price|floatformat:2 }}</p>
+
+	<a href="{% url 'home' %}">Continue Shopping</a>
+
+</body>
+
+</html>
